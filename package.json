@@ -1,6 +1,6 @@
 {
-  "name": "eslint-plugin-tidio-additional-rules",
-  "version": "1.2.2",
+  "name": "@tidio/eslint-plugin-tidio-additional-rules",
+  "version": "2.0.0",
   "description": "Additional eslint rules used in Tidio",
   "keywords": [
     "eslint",
@@ -10,7 +10,7 @@
   "author": "Grzegorz Dominiczak",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dominiczaq/eslint-plugin-tidio-additional-rules"
+    "url": "https://github.com/TidioLtd/eslint-plugin-tidio-additional-rules"
   },
   "main": "lib/index.js",
   "scripts": {
@@ -31,5 +31,6 @@
   "engines": {
     "node": ">=10.0.0"
   },
-  "license": "ISC"
+  "license": "MIT",
+  "private": false
 }
