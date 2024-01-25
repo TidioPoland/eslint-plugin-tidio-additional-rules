@@ -17,7 +17,11 @@ RuleTester.setDefaultConfig({
 });
 var ruleTester = new RuleTester();
 ruleTester.run('require-proper-argument-of-trackCall', rule, {
-  valid: ['trackCall("Mobile: Test");', 'trackCall("This Is A Valid Data");'],
+  valid: [
+    'trackCall("Mobile: Test");',
+    'trackCall("This Is A Valid Data");',
+    'trackCall("This Is A 24h Valid Data");',
+  ],
 
   invalid: [
     {
@@ -25,7 +29,7 @@ ruleTester.run('require-proper-argument-of-trackCall', rule, {
       errors: [
         {
           message:
-            'Each word in trackCall event should be capitalized. Got "test"',
+            'Each word in trackCall event should be capitalized. Got not-capitalized first-letter in "test" word in "test".',
           type: 'ExpressionStatement',
         },
       ],
@@ -35,7 +39,7 @@ ruleTester.run('require-proper-argument-of-trackCall', rule, {
       errors: [
         {
           message:
-            'Each word in trackCall event should be capitalized. Got "this is test"',
+            'Each word in trackCall event should be capitalized. Got not-capitalized first-letter in "this", "is", "test" words in "this is test".',
           type: 'ExpressionStatement',
         },
       ],
@@ -45,7 +49,32 @@ ruleTester.run('require-proper-argument-of-trackCall', rule, {
       errors: [
         {
           message:
-            'Each word in trackCall event should be capitalized. Got "This Is test"',
+            'Each word in trackCall event should be capitalized. Got not-capitalized first-letter in "test" word in "This Is test".',
+          type: 'ExpressionStatement',
+        },
+      ],
+    },
+    {
+      code: `trackCall("This Is A Test .csv");`,
+      errors: [
+        {
+          message:
+            'Event should not have a dot(.) in event name. Got ".csv" word with dot in "This Is A Test .csv".',
+          type: 'ExpressionStatement',
+        },
+      ],
+    },
+    {
+      code: `trackCall("This Is A test .csv");`,
+      errors: [
+        {
+          message:
+            'Each word in trackCall event should be capitalized. Got not-capitalized first-letter in "test" word in "This Is A test .csv".',
+          type: 'ExpressionStatement',
+        },
+        {
+          message:
+            'Event should not have a dot(.) in event name. Got ".csv" word with dot in "This Is A test .csv".',
           type: 'ExpressionStatement',
         },
       ],
