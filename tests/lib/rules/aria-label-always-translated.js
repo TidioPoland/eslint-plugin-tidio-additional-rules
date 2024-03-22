@@ -28,6 +28,7 @@ var ruleTester = new RuleTester();
 ruleTester.run('aria-label-always-translated', rule, {
   valid: [
     "<Test aria-label={trans('test')} />",
+    "<Test aria-label={`${trans('test')} - ${trans('test')}`} />",
     '<Test somethingElse="Test" />',
   ],
 
@@ -42,10 +43,37 @@ ruleTester.run('aria-label-always-translated', rule, {
       ],
     },
     {
+      code: "const variable='1';<Test aria-label={`${trans('test')} ${variable} ${trans('test')}`} />",
+      errors: [
+        {
+          message: `aria-label should always be translated. Got a variable "variable" call in string template. Please use trans directly.`,
+          type: 'JSXAttribute',
+        },
+      ],
+    },
+    {
+      code: "const variable='1';<Test aria-label={`${trans('test')} ${otherFunction('test')} ${trans('test')}`} />",
+      errors: [
+        {
+          message: `aria-label should always be translated. Got a function "otherFunction" call in string template. Please use trans directly.`,
+          type: 'JSXAttribute',
+        },
+      ],
+    },
+    {
+      code: "<Test aria-label={`${trans('test')} wow ${trans('test')}`} />",
+      errors: [
+        {
+          message: `aria-label should always be translated. Got an untranslated "wow" string in string template. Please use trans.`,
+          type: 'JSXAttribute',
+        },
+      ],
+    },
+    {
       code: "const more='1';<Test aria-label={`this-is-something-${more}`} />",
       errors: [
         {
-          message: `aria-label should always be translated. Got string template. Please use trans directly.`,
+          message: `aria-label should always be translated. Got a variable "more" call in string template. Please use trans directly.`,
           type: 'JSXAttribute',
         },
       ],
