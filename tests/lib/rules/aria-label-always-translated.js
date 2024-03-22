@@ -50,5 +50,14 @@ ruleTester.run('aria-label-always-translated', rule, {
         },
       ],
     },
+    {
+      code: "const more='1';<Test aria-label={more} />",
+      errors: [
+        {
+          message: `aria-label should always be translated. Got a variable "more". Please use trans directly.`,
+          type: 'JSXAttribute',
+        },
+      ],
+    },
   ],
 });
