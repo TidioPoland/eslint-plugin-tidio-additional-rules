@@ -21,6 +21,11 @@ ruleTester.run('require-proper-argument-of-trackCall', rule, {
     'trackCall("Mobile: Test");',
     'trackCall("This Is A Valid Data");',
     'trackCall("This Is A 24h Valid Data");',
+    'trackCall("The Event Which Is Longer Than 50 Characters By Few Letters");',
+    {
+      code: 'trackCall("The Event Which Is Longer Than 50 Characters By Few Letters");',
+      options: [{ characterLimit: 60 }],
+    },
   ],
 
   invalid: [
@@ -76,6 +81,21 @@ ruleTester.run('require-proper-argument-of-trackCall', rule, {
           message:
             'Event should not have a dot(.) in event name. Got ".csv" word with dot in "This Is A test .csv".',
           type: 'ExpressionStatement',
+        },
+      ],
+    },
+    {
+      code: `trackCall("The Event Which Is Longer Than 50 Characters By Few Letters");`,
+      errors: [
+        {
+          message:
+            'Event should not be longer than 50 characters. "The Event Which Is Longer Than 50 Characters By Few Letters" is 59 letters long.',
+          type: 'ExpressionStatement',
+        },
+      ],
+      options: [
+        {
+          characterLimit: 50,
         },
       ],
     },
