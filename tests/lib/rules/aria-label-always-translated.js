@@ -29,6 +29,7 @@ ruleTester.run('aria-label-always-translated', rule, {
   valid: [
     "<Test aria-label={trans('test')} />",
     "<Test aria-label={`${trans('test')} - ${trans('test')}`} />",
+    "<Test ariaLabel={`${trans('test')} - ${trans('test')}`} />",
     '<Test somethingElse="Test" />',
   ],
 
@@ -74,6 +75,15 @@ ruleTester.run('aria-label-always-translated', rule, {
       errors: [
         {
           message: `aria-label should always be translated. Got a variable "more" call in string template. Please use trans directly.`,
+          type: 'JSXAttribute',
+        },
+      ],
+    },
+    {
+      code: "<Test ariaLabel='test' />",
+      errors: [
+        {
+          message: `ariaLabel should always be translated. Got "test"`,
           type: 'JSXAttribute',
         },
       ],
