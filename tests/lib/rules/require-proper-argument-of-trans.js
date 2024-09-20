@@ -13,18 +13,21 @@ RuleTester.setDefaultConfig({
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 });
 var ruleTester = new RuleTester();
 ruleTester.run('require-proper-argument-of-trans', rule, {
-  valid: ['trans("Mobile: Test");', "trans('Mobile: Test');"],
+  valid: ['trans("Mobile: Test");', "trans('Mobile: Test');", "<Component text={trans('string')} />"],
   invalid: [
     {
       code: 'trans(`test`);',
       errors: [
         {
           message: 'Argument of trans should be string. Got TemplateLiteral.',
-          type: 'ExpressionStatement',
+          type: 'CallExpression',
         },
       ],
     },
@@ -33,7 +36,16 @@ ruleTester.run('require-proper-argument-of-trans', rule, {
       errors: [
         {
           message: 'Argument of trans should be string. Got Identifier.',
-          type: 'ExpressionStatement',
+          type: 'CallExpression',
+        },
+      ],
+    },
+    {
+      code: `<Component text={trans(VARIABLE)} />`,
+      errors: [
+        {
+          message: 'Argument of trans should be string. Got Identifier.',
+          type: 'CallExpression',
         },
       ],
     },
