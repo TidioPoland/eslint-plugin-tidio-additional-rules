@@ -13,11 +13,18 @@ RuleTester.setDefaultConfig({
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
 });
 var ruleTester = new RuleTester();
 ruleTester.run('require-mobile-in-mobileapp-events', rule, {
-  valid: ['trackCall("Mobile: Test");', 'anyotherfunction("Event")'],
+  valid: [
+    'trackCall("Mobile: Test");',
+    'anyotherfunction("Event")',
+    '<Component test={trackCall("Mobile: Test")} />',
+  ],
 
   invalid: [
     {
@@ -26,7 +33,17 @@ ruleTester.run('require-mobile-in-mobileapp-events', rule, {
         {
           message:
             'All mobile app events should start with "Mobile:". Got "Test"',
-          type: 'ExpressionStatement',
+          type: 'CallExpression',
+        },
+      ],
+    },
+    {
+      code: `<Component test={trackCall("Test")} />`,
+      errors: [
+        {
+          message:
+            'All mobile app events should start with "Mobile:". Got "Test"',
+          type: 'CallExpression',
         },
       ],
     },
