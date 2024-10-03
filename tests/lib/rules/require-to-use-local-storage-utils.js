@@ -20,7 +20,8 @@ ruleTester.run('require-to-use-local-storage-utils', rule, {
   valid: [
     'const variable = localStorageGetItem("test");',
     'const variable = localStorageSetItem("test", "test");',
-    'const variable = localStorageRemoveItem("test", "test");'
+    'const variable = localStorageRemoveItem("test", "test");',
+    'localStorageRemoveItem("test", "test");'
   ],
   invalid: [
     {
@@ -28,7 +29,7 @@ ruleTester.run('require-to-use-local-storage-utils', rule, {
       errors: [
         {
           message: 'localStorage.getItem is not allowed. Use localStorageGetItem from helpers instead.',
-          type: 'VariableDeclarator',
+          type: 'Identifier',
         },
       ],
     },
@@ -37,7 +38,7 @@ ruleTester.run('require-to-use-local-storage-utils', rule, {
       errors: [
         {
           message: 'localStorage.setItem is not allowed. Use localStorageSetItem from helpers instead.',
-          type: 'VariableDeclarator',
+          type: 'Identifier',
         },
       ],
     },
@@ -46,7 +47,34 @@ ruleTester.run('require-to-use-local-storage-utils', rule, {
       errors: [
         {
           message: 'localStorage.removeItem is not allowed. Use localStorageRemoveItem from helpers instead.',
-          type: 'VariableDeclarator',
+          type: 'Identifier',
+        },
+      ],
+    },
+    {
+      code: 'localStorage.getItem("test");',
+      errors: [
+        {
+          message: 'localStorage.getItem is not allowed. Use localStorageGetItem from helpers instead.',
+          type: 'Identifier',
+        },
+      ],
+    },
+    {
+      code: 'localStorage.setItem("test");',
+      errors: [
+        {
+          message: 'localStorage.setItem is not allowed. Use localStorageSetItem from helpers instead.',
+          type: 'Identifier',
+        },
+      ],
+    },
+    {
+      code: 'localStorage.removeItem("test");',
+      errors: [
+        {
+          message: 'localStorage.removeItem is not allowed. Use localStorageRemoveItem from helpers instead.',
+          type: 'Identifier',
         },
       ],
     },
