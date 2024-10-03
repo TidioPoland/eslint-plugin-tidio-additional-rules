@@ -13,14 +13,15 @@ RuleTester.setDefaultConfig({
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
   },
 });
 var ruleTester = new RuleTester();
 ruleTester.run('require-to-use-local-storage-utils', rule, {
-  valid: ['const variable = localStorageGetItem("test");', 'const variable = localStorageSetItem("test", "test");', 'const variable = localStorageRemoveItem("test", "test");'],
+  valid: [
+    'const variable = localStorageGetItem("test");',
+    'const variable = localStorageSetItem("test", "test");',
+    'const variable = localStorageRemoveItem("test", "test");'
+  ],
   invalid: [
     {
       code: 'const variable = localStorage.getItem("test");',
