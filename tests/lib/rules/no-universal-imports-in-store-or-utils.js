@@ -86,5 +86,25 @@ ruleTester.run('no-universal-imports-in-store-or-utils', rule, {
         },
       ],
     },
+    {
+      code: `import trans from 'lang'`,
+      filename: 'packages/utils/index.js',
+      errors: [
+        {
+          message: `Nothing from lang should be imported in 'utils/...'`,
+          type: 'ImportDeclaration',
+        },
+      ],
+    },
+    {
+      code: `import trans from 'lang'`,
+      filename: 'packages/store/index.js',
+      errors: [
+        {
+          message: `Nothing from lang should be imported in 'store/...'`,
+          type: 'ImportDeclaration',
+        },
+      ],
+    },
   ],
 });
