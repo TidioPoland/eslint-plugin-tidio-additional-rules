@@ -27,6 +27,10 @@ ruleTester.run('no-trans-in-tests', rule, {
       code: `trans(1)`,
       filename: 'packages/webApp/Main.jsx',
     },
+    {
+      code: `trans(1)`,
+      filename: 'packages/webApp/lang/index.test.jsx',
+    },
   ],
 
   invalid: [
